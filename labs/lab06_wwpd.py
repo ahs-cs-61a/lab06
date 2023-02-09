@@ -1,4 +1,4 @@
-# lab05 WWPD?
+# lab06 WWPD?
 
 
 # IMPORTS
@@ -95,102 +95,71 @@ def wwpd(name, question_set, stored_list):
 
 # REFERENCE FUNCTIONS, CLASSES, METHODS, SEQUENCES, ETC.
 
-# https://inst.eecs.berkeley.edu/~cs61a/su22/disc/disc05/
+class Link:
+    """A linked list.
 
-class Student:
+    >>> s = Link(1)
+    >>> s.first
+    1
+    >>> s.rest is Link.empty
+    True
+    >>> s = Link(2, Link(3, Link(4)))
+    >>> s.first = 5
+    >>> s.rest.first = 6
+    >>> s.rest.rest = Link.empty
+    >>> s                                    # Displays the contents of repr(s)
+    Link(5, Link(6))
+    >>> s.rest = Link(7, Link(Link(8, Link(9))))
+    >>> s
+    Link(5, Link(7, Link(Link(8, Link(9)))))
+    >>> print(s)                             # Prints str(s)
+    <5 7 <8 9>>
+    """
+    empty = ()
 
-    extension_days = 3 # this is a class variable
+    def __init__(self, first, rest=empty):
+        assert rest is Link.empty or isinstance(rest, Link)
+        self.first = first
+        self.rest = rest
 
-    def __init__(self, name, staff):
-        self.name = name # this is an instance variable
-        self.understanding = 0
-        staff.add_student(self)
-        print("Added", self.name)
+    def __repr__(self):
+        if self.rest is not Link.empty:
+            rest_repr = ', ' + repr(self.rest)
+        else:
+            rest_repr = ''
+        return 'Link(' + repr(self.first) + rest_repr + ')'
 
-    def visit_office_hours(self, staff):
-        staff.assist(self)
-        print("Thanks, " + staff.name)
+    def __str__(self):
+        string = '<'
+        while self.rest is not Link.empty:
+            string += str(self.first) + ' '
+            self = self.rest
+        return string + str(self.first) + '>'
+    
+# lab07: https://inst.eecs.berkeley.edu/~cs61a/su22/disc/disc07/
 
-class Professor:
+link = Link(1, Link(2, Link(3)))
 
-    def __init__(self, name):
-        self.name = name
-        self.students = {}
+lnk = Link(1)
+lnk.rest = lnk
 
-    def add_student(self, student):
-        self.students[student.name] = student
-
-    def assist(self, student):
-        student.understanding += 1
-
-    def grant_more_extension_days(self, student, days):
-        student.extension_days = days
-
-
-# https://inst.eecs.berkeley.edu/~cs61a/su22/lab/lab04/
-
-class Car:
-    num_wheels = 4
-    gas = 30
-    headlights = 2
-    size = 'Tiny'
-
-    def __init__(self, make, model):
-        self.make = make
-        self.model = model
-        self.color = 'No color yet. You need to paint me.'
-        self.wheels = Car.num_wheels
-        self.gas = Car.gas
-
-    def paint(self, color):
-        self.color = color
-        return self.make + ' ' + self.model + ' is now ' + color
-
-    def drive(self):
-        if self.wheels < Car.num_wheels or self.gas <= 0:
-            return 'Cannot drive!'
-        self.gas -= 10
-        return self.make + ' ' + self.model + ' goes vroom!'
-
-    def pop_tire(self):
-        if self.wheels > 0:
-            self.wheels -= 1
-
-    def fill_gas(self):
-        self.gas += 20
-        return 'Gas level: ' + str(self.gas)
+l = Link(2, Link(3, Link(4)))
+l2 = Link(1, l)
 
 
 # QUESTION SET - ELEMENT FORMAT: [<QUESTION NUMBER>, <INITIAL PRINTS> (usually empty), <QUESTION>, <ANSWER>]
 # INSPECT MODULE - convert function/class body into String: https://docs.python.org/3/library/inspect.html 
 
-student_oop_qs = [
-    [1, inspect.getsource(Student) + "\n" + inspect.getsource(Professor) + '\n>>> callahan = Professor("Callahan")', '>>> elle = Student("Elle", callahan)', "Added Elle"],
-    [2, "", ">>> elle.visit_office_hours(callahan)", "Thanks, Callahan"],
-    [3, "", '>>> elle.visit_office_hours(Professor("Paulette"))', "Thanks, Paulette"],
-    [4, "", ">>> elle.understanding", "2"],
-    [5, "", ">>> [name for name in callahan.students]", "['Elle']"],
-    [6, "", 'x = Student("Vivian", Professor("Stromwell")).name', "Added Vivian"],
-    [7, "", ">>> x", "'Vivian'"],
-    [8, "", ">>> elle.extension_days", "3"],
-    [9, ">>> callahan.grant_more_extension_days(elle, 7)", ">>> elle.extension_days", "7"],
-    [10, "", ">>> Student.extension_days", "3"]
-    ]
-
-classy_cars_qs = [
-    [11, "\n" + inspect.getsource(Car) + "\n>>> deneros_car = Car('Tesla', 'Model S')", ">>> deneros_car.model", "'Model S'"],
-    [12, ">>> deneros_car.gas = 10", ">>> deneros_car.drive()", "'Tesla Model S goes vroom!'"],
-    [13, "", ">>> deneros_car.drive()", "'Cannot drive!'"],
-    [14, "", ">>> deneros_car.fill_gas()", "'Gas level: 20'"],
-    [15, "", ">>> Car.gas", "30"],
-    [16, ">>> deneros_car = Car('Tesla', 'Model S')\n>>> deneros_car.wheels = 2", ">>> deneros_car.wheels", "2"],
-    [17, "", ">>> Car.num_wheels", "4"],
-    [18, "", ">>> deneros_car.drive()", "'Cannot drive!'"],
-    [19, "", ">>> Car.drive()", "error"],
-    [20, "", ">>> Car.drive(deneros_car)", "'Cannot drive!'"]
+linked_lists_qs = [
+    [1, ">>> link = Link(1, Link(2, Link(3)))", ">>> link.first", str(link.first)],
+    [2, "", ">>> link.rest.first", str(link.rest.first)],
+    [3, "", ">>> link.rest.rest.rest is Link.empty", str(link.rest.rest.rest is Link.empty)],
+    [4, ">>> link.rest = link.rest.rest", ">>> link.rest.first", "3"],
+    [5, ">>> lnk = Link(1)\n>>> lnk.rest = lnk", ">>> lnk.rest.rest.rest.rest.first", str(">>> lnk.rest.rest.rest.rest.first")],
+    [6, ">>> l = Link(2, Link(3, Link(4)))\n>>> l2 = Link(1, l)", ">>> l2.first", str(l2.first)],
+    [7, "", ">>> l2.rest.first", str(l2.rest.first)]
 ]
-
-all_qs = [student_oop_qs, classy_cars_qs]
+all_qs = [linked_lists_qs]
 
 for set in all_qs:
     for q in set:
@@ -199,8 +168,5 @@ for set in all_qs:
 
 # WWPD? QUESTIONS
 
-def wwpd_student_oop():
-    wwpd("Student OOP", student_oop_qs, st)
-
-def wwpd_classy_cars():
-    wwpd("Classy Cars", classy_cars_qs, st)
+def wwpd_linked_lists():
+    wwpd("Linked Lists", linked_lists_qs, st)

@@ -1,21 +1,19 @@
-# lab05: Object Oriented Programming (OOP), Inheritance
+# lab06: Linked Lists
   
-This assignment merges problems from disc05, disc06, lab04, lab05, and hw04 into one; refer to these links for problem descriptions and requirements:
+This assignment merges problems from discussions, labs, and homeworks into one; refer to these links for problem descriptions and requirements:
   
-- disc05: https://inst.eecs.berkeley.edu/~cs61a/su22/disc/disc05/
-- disc06: https://inst.eecs.berkeley.edu/~cs61a/su22/disc/disc06/
-- lab04: https://inst.eecs.berkeley.edu/~cs61a/su22/lab/lab04/
-- lab05: https://inst.eecs.berkeley.edu/~cs61a/su22/lab/lab05/
-- hw04: https://inst.eecs.berkeley.edu/~cs61a/su22/hw/hw04/
+- disc07: https://inst.eecs.berkeley.edu/~cs61a/su22/disc/disc07/
+- lab07: https://inst.eecs.berkeley.edu/~cs61a/su22/lab/lab07/
+- lab12: https://inst.eecs.berkeley.edu/~cs61a/su22/lab/lab12/
+- hw05: https://inst.eecs.berkeley.edu/~cs61a/su22/hw/hw05/
   
 lecture slides: 
   
-- OOP: https://docs.google.com/presentation/d/1xvpw23XdrDM6BSNit5a5JuHh5Sr-VZiNuvNGLTnkl0Q/edit?usp=sharing
-- inheritance: https://docs.google.com/presentation/d/1WPrtir3EVrDARWxVRA9_2eqis3wNfUD42qrIlI-1VaM/edit?usp=sharing
+- linked lists: https://docs.google.com/presentation/d/1ODdmcsE0NERZJKC1_RzlCWCZwyVIy0yDAub4BLdZwiE/edit?usp=sharing 
   
 optional lecture recordings:
-- OOP: https://youtu.be/A_EFoT4cBSk
-- inheritance: https://youtube.com/playlist?list=PLx38hZJ5RLZfVm1e8UnsPKAcwMuJnsno1
+
+- linked lists: https://youtube.com/playlist?list=PLx38hZJ5RLZdeag_SwSSrS34mfxprHcbK 
   
 reminders: 
   
@@ -29,11 +27,10 @@ reminders:
 
 test commands:
   
-- test_keyboard
-- test_minty_coin
-- test_smart_fridge
-- test_vending_machine
-- test_cat
-- test_noisy_cat
-- test_account
-- test_free_checking
+- test_remove_all
+- test_slice_link
+- test_store_digits
+- test_every_other
+- test_duplicate_link
+- test_deep_map
+- test_link_pop
