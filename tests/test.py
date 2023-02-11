@@ -3,7 +3,7 @@
 
 # IMPORTS
 
-import labs.lab05 as lab
+import labs.lab06 as lab
 import tests.wwpd_storage as s
 from io import StringIO 
 import sys
@@ -51,6 +51,33 @@ def print_success(message):
 
 # TESTS
 
+def test_remove_all():
+    l1 = Link(0, Link(2, Link(2, Link(3, Link(1, Link(2, Link(3)))))))
+    lab.remove_all(l1, 2)
+    assert str(l1) == '<0 3 1 3>': 
+    lab.remove_all(l1, 3)
+    assert str(l1) == '<0 1>'
+    lab.remove_all(l1, 3)
+    assert assert(l1) == '<0 1>'
+
+
+def test_slice_link():
+    link = Link(3, Link(1, Link(4, Link(1, Link(5, Link(9))))))
+    new = lab.slice_link(link, 1, 4)
+    assert str(new) == '<1 4 1>'
+
+
+def test_store_digits():    
+    s = lab.store_digits(1)
+    assert s == Link(1)
+    assert lab.store_digits(2345) == Link(2, Link(3, Link(4, Link(5))))
+    assert lab.store_digits(876) == Link(8, Link(7, Link(6)))
+
+    # ban str and reversed
+    search = re.sub(r"#.*\\n", '', re.sub(r'"{3}[\s\S]*?"{3}', '', inspect.getsource(lab.store_digits)))
+    print_error("str and/or reversed detected; please implement wihtout using.") if any([r in search for r in ["str", "reversed"]])
+    
+
 
 
 # CHECK WWPD? IS ALL COMPLETE
@@ -86,3 +113,47 @@ def test_commit():
         # IF GITHUB USERNAME IS NOT FOUND
         print_error("Incorrect GitHub username; try again.")
         raise git.NoSuchPathError("")
+
+
+# linked list class
+
+class Link:
+    """A linked list.
+
+    >>> s = Link(1)
+    >>> s.first
+    1
+    >>> s.rest is Link.empty
+    True
+    >>> s = Link(2, Link(3, Link(4)))
+    >>> s.first = 5
+    >>> s.rest.first = 6
+    >>> s.rest.rest = Link.empty
+    >>> s                                    # Displays the contents of repr(s)
+    Link(5, Link(6))
+    >>> s.rest = Link(7, Link(Link(8, Link(9))))
+    >>> s
+    Link(5, Link(7, Link(Link(8, Link(9)))))
+    >>> print(s)                             # Prints str(s)
+    <5 7 <8 9>>
+    """
+    empty = ()
+
+    def __init__(self, first, rest=empty):
+        assert rest is Link.empty or isinstance(rest, Link)
+        self.first = first
+        self.rest = rest
+
+    def __repr__(self):
+        if self.rest is not Link.empty:
+            rest_repr = ', ' + repr(self.rest)
+        else:
+            rest_repr = ''
+        return 'Link(' + repr(self.first) + rest_repr + ')'
+
+    def __str__(self):
+        string = '<'
+        while self.rest is not Link.empty:
+            string += str(self.first) + ' '
+            self = self.rest
+        return string + str(self.first) + '>'

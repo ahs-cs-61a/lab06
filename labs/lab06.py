@@ -46,10 +46,6 @@ def store_digits(n): # q3
     Link(2, Link(3, Link(4, Link(5))))
     >>> store_digits(876)
     Link(8, Link(7, Link(6)))
-    >>> # a check for restricted functions
-    >>> import inspect, re
-    >>> cleaned = re.sub(r"#.*\\n", '', re.sub(r'"{3}[\s\S]*?"{3}', '', inspect.getsource(store_digits)))
-    >>> print("Do not use str or reversed!") if any([r in cleaned for r in ["str", "reversed"]]) else None
     >>> link1 = Link(3, Link(Link(4), Link(5, Link(6))))
     """
     "*** YOUR CODE HERE ***"
