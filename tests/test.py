@@ -52,11 +52,11 @@ def print_success(message):
 def test_remove_all():
     l1 = Link(0, Link(2, Link(2, Link(3, Link(1, Link(2, Link(3)))))))
     lab.remove_all(l1, 2)
-    assert str(l1) == '<0 3 1 3>': 
+    assert str(l1) == '<0 3 1 3>'
     lab.remove_all(l1, 3)
     assert str(l1) == '<0 1>'
     lab.remove_all(l1, 3)
-    assert assert(l1) == '<0 1>'
+    assert str(l1) == '<0 1>'
 
 
 def test_slice_link():
