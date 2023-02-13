@@ -9,7 +9,7 @@ This assignment merges problems from discussions, labs, and homeworks into one; 
   
 lecture slides: 
   
-- linked lists: https://docs.google.com/presentation/d/1ODdmcsE0NERZJKC1_RzlCWCZwyVIy0yDAub4BLdZwiE/edit?usp=sharing 
+- linked lists: https://docs.google.com/presentation/d/1uYzQsjc0raiBXYSO25L4IJGT-orad_te3VGuZqCIXxs/edit?usp=sharing 
   
 optional lecture recordings:
 
