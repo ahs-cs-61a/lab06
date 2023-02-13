@@ -107,12 +107,12 @@ class Link:
     >>> s.first = 5
     >>> s.rest.first = 6
     >>> s.rest.rest = Link.empty
-    >>> s                                    # Displays the contents of repr(s)
+    >>> s  # Displays the contents of repr(s)
     Link(5, Link(6))
     >>> s.rest = Link(7, Link(Link(8, Link(9))))
     >>> s
     Link(5, Link(7, Link(Link(8, Link(9)))))
-    >>> print(s)                             # Prints str(s)
+    >>> print(s)  # Prints str(s)
     <5 7 <8 9>>
     """
     empty = ()
@@ -155,7 +155,7 @@ linked_lists_qs = [
     [2, "", ">>> link.rest.first", str(link.rest.first)],
     [3, "", ">>> link.rest.rest.rest is Link.empty", str(link.rest.rest.rest is Link.empty)],
     [4, ">>> link.rest = link.rest.rest", ">>> link.rest.first", "3"],
-    [5, ">>> lnk = Link(1)\n>>> lnk.rest = lnk", ">>> lnk.rest.rest.rest.rest.first", str(">>> lnk.rest.rest.rest.rest.first")],
+    [5, ">>> lnk = Link(1)\n>>> lnk.rest = lnk", ">>> lnk.rest.rest.rest.rest.first", str(lnk.rest.rest.rest.rest.first)],
     [6, ">>> l = Link(2, Link(3, Link(4)))\n>>> l2 = Link(1, l)", ">>> l2.first", str(l2.first)],
     [7, "", ">>> l2.rest.first", str(l2.rest.first)]
 ]
