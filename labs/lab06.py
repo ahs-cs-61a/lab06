@@ -122,7 +122,7 @@ def deep_map(f, link): # q6
 # lab12: https://inst.eecs.berkeley.edu/~cs61a/su22/lab/lab12/
 
 def link_pop(lnk, index=-1): # q7
-    '''Implement the pop method for a Linked List.
+    """Implement the pop method for a Linked List.
 
     >>> lnk = Link(1, Link(2, Link(3, Link(4, Link(5)))))
     >>> removed = link_pop(lnk)
@@ -140,7 +140,7 @@ def link_pop(lnk, index=-1): # q7
     2
     >>> print(lnk)
     <1>
-    '''
+    """
     if index == -1:
         while ___________________:
             ___________________
@@ -169,12 +169,12 @@ class Link:
     >>> s.first = 5
     >>> s.rest.first = 6
     >>> s.rest.rest = Link.empty
-    >>> s                                    # Displays the contents of repr(s)
+    >>> s  # Displays the contents of repr(s)
     Link(5, Link(6))
     >>> s.rest = Link(7, Link(Link(8, Link(9))))
     >>> s
     Link(5, Link(7, Link(Link(8, Link(9)))))
-    >>> print(s)                             # Prints str(s)
+    >>> print(s)  # Prints str(s)
     <5 7 <8 9>>
     """
     empty = ()

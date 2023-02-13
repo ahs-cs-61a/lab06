@@ -3,11 +3,9 @@
 
 # IMPORTS
 
-import labs.lab06 as lab
-import tests.wwpd_storage as s
+import labs.lab06 as lab, tests.wwpd_storage as s
+import re, inspect, sys, git
 from io import StringIO 
-import sys
-import git
 
 st = s.wwpd_storage
 
@@ -75,9 +73,55 @@ def test_store_digits():
 
     # ban str and reversed
     search = re.sub(r"#.*\\n", '', re.sub(r'"{3}[\s\S]*?"{3}', '', inspect.getsource(lab.store_digits)))
-    print_error("str and/or reversed detected; please implement wihtout using.") if any([r in search for r in ["str", "reversed"]])
+    print_error("str and/or reversed detected; please implement wihtout using.") if any([r in search for r in ["str", "reversed"]]) else None
     
 
+def test_every_other():
+    l = Link('a', Link('b', Link('c', Link('d'))))
+    lab.every_other(l)
+    assert l.first == 'a'
+    assert l.rest.first == 'c'
+    assert l.rest.rest is Link.empty
+    s = Link(1, Link(2, Link(3, Link(4))))
+    lab.every_other(s)
+    assert s == Link(1, Link(3))
+    odd_length = Link(5, Link(3, Link(1)))
+    lab.every_other(odd_length)
+    assert odd_length == Link(5, Link(1))
+    singleton = Link(4)
+    lab.every_other(singleton)
+    assert singleton == Link(4)
+
+
+def test_duplicate_link():
+    x = Link(5, Link(4, Link(3)))
+    lab.duplicate_link(x, 5)
+    assert x == Link(5, Link(5, Link(4, Link(3))))
+    y = Link(2, Link(4, Link(6, Link(8))))
+    lab.duplicate_link(y, 10)
+    assert y == Link(2, Link(4, Link(6, Link(8))))
+    z = Link(1, Link(2, (Link(2, Link(3)))))
+    lab.duplicate_link(z, 2)
+    assert z == Link(1, Link(2, Link(2, Link(2, Link(2, Link(3))))))
+
+
+def test_deep_map():
+    s = Link(1, Link(Link(2, Link(3)), Link(4)))
+    assert str(lab.deep_map(lambda x: x * x, s)) == '<1 <4 9> 16>'
+    assert str(s) == '<1 <2 3> 4>'
+    assert str(lab.deep_map(lambda x: 2 * x, Link(s, Link(Link(Link(5)))))) == '<<2 <4 6> 8> <<10>>>'
+
+
+def test_link_pop():
+    lnk = Link(1, Link(2, Link(3, Link(4, Link(5)))))
+    removed = lab.link_pop(lnk)
+    assert removed == 5
+    assert str(lnk) == '<1 2 3 4>'
+    assert lab.link_pop(lnk, 2) == 3
+    assert str(lnk) == '<1 2 4>'
+    assert lab.link_pop(lnk) == 4
+    assert lab.link_pop(lnk) == 2
+    assert str(lnk) == '<1>'
 
 
 # CHECK WWPD? IS ALL COMPLETE
@@ -129,12 +173,12 @@ class Link:
     >>> s.first = 5
     >>> s.rest.first = 6
     >>> s.rest.rest = Link.empty
-    >>> s                                    # Displays the contents of repr(s)
+    >>> s  # Displays the contents of repr(s)
     Link(5, Link(6))
     >>> s.rest = Link(7, Link(Link(8, Link(9))))
     >>> s
     Link(5, Link(7, Link(Link(8, Link(9)))))
-    >>> print(s)                             # Prints str(s)
+    >>> print(s)  # Prints str(s)
     <5 7 <8 9>>
     """
     empty = ()
