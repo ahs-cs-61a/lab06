@@ -107,12 +107,12 @@ class Link:
     >>> s.first = 5
     >>> s.rest.first = 6
     >>> s.rest.rest = Link.empty
-    >>> s  # Displays the contents of repr(s)
+    >>> s                                    # Displays the contents of repr(s)
     Link(5, Link(6))
     >>> s.rest = Link(7, Link(Link(8, Link(9))))
     >>> s
     Link(5, Link(7, Link(Link(8, Link(9)))))
-    >>> print(s)  # Prints str(s)
+    >>> print(s)                             # Prints str(s)
     <5 7 <8 9>>
     """
     empty = ()
