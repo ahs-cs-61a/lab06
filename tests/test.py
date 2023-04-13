@@ -67,9 +67,9 @@ def test_slice_link():
 
 def test_store_digits():    
     s = lab.store_digits(1)
-    assert s == Link(1)
-    assert lab.store_digits(2345) == Link(2, Link(3, Link(4, Link(5))))
-    assert lab.store_digits(876) == Link(8, Link(7, Link(6)))
+    assert str(s) == str(Link(1))
+    assert str(lab.store_digits(2345)) == str(Link(2, Link(3, Link(4, Link(5)))))
+    assert str(lab.store_digits(876)) == str(Link(8, Link(7, Link(6))))
 
     # ban str and reversed
     search = re.sub(r"#.*\\n", '', re.sub(r'"{3}[\s\S]*?"{3}', '', inspect.getsource(lab.store_digits)))
@@ -84,32 +84,32 @@ def test_every_other():
     assert l.rest.rest is Link.empty
     s = Link(1, Link(2, Link(3, Link(4))))
     lab.every_other(s)
-    assert s == Link(1, Link(3))
+    assert str(s) == str(Link(1, Link(3)))
     odd_length = Link(5, Link(3, Link(1)))
     lab.every_other(odd_length)
-    assert odd_length == Link(5, Link(1))
+    assert str(odd_length) == str(Link(5, Link(1)))
     singleton = Link(4)
     lab.every_other(singleton)
-    assert singleton == Link(4)
+    assert str(singleton) == str(Link(4))
 
 
 def test_duplicate_link():
-    x = Link(5, Link(4, Link(3)))
+    x = lab.Link(5, lab.Link(4, lab.Link(3)))
     lab.duplicate_link(x, 5)
-    assert x == Link(5, Link(5, Link(4, Link(3))))
-    y = Link(2, Link(4, Link(6, Link(8))))
+    assert str(x) == str(Link(5, Link(5, Link(4, Link(3)))))
+    y = lab.Link(2, lab.Link(4, lab.Link(6, lab.Link(8))))
     lab.duplicate_link(y, 10)
-    assert y == Link(2, Link(4, Link(6, Link(8))))
-    z = Link(1, Link(2, (Link(2, Link(3)))))
+    assert str(y) == str(Link(2, Link(4, Link(6, Link(8)))))
+    z = lab.Link(1, lab.Link(2, (lab.Link(2, lab.Link(3)))))
     lab.duplicate_link(z, 2)
-    assert z == Link(1, Link(2, Link(2, Link(2, Link(2, Link(3))))))
+    assert str(z) == str(Link(1, Link(2, Link(2, Link(2, Link(2, Link(3)))))))
 
 
 def test_deep_map():
-    s = Link(1, Link(Link(2, Link(3)), Link(4)))
-    assert str(lab.deep_map(lambda x: x * x, s)) == '<1 <4 9> 16>'
-    assert str(s) == '<1 <2 3> 4>'
-    assert str(lab.deep_map(lambda x: 2 * x, Link(s, Link(Link(Link(5)))))) == '<<2 <4 6> 8> <<10>>>'
+    l = Link(1, Link(Link(2, Link(3)), Link(4)))
+    assert lab.deep_map(lambda x: x * x, l) == '<1 <4 9> 16>'
+    assert str(l) == '<1 <2 3> 4>'
+    assert str(lab.deep_map(lambda x: 2 * x, Link(l, Link(Link(Link(5)))))) == '<<2 <4 6> 8> <<10>>>'
 
 
 def test_link_pop():
