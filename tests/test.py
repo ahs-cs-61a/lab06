@@ -50,26 +50,24 @@ def print_success(message):
 # TESTS
 
 def test_remove_all():
-    l1 = Link(0, Link(2, Link(2, Link(3, Link(1, Link(2, Link(3)))))))
+    l1 = lab.Link(0, lab.Link(2, lab.Link(2, lab.Link(3, lab.Link(1, lab.Link(2, lab.Link(3)))))))
     lab.remove_all(l1, 2)
     assert str(l1) == '<0 3 1 3>'
-    lab.remove_all(l1, 3)
-    assert str(l1) == '<0 1>'
     lab.remove_all(l1, 3)
     assert str(l1) == '<0 1>'
 
 
 def test_slice_link():
-    link = Link(3, Link(1, Link(4, Link(1, Link(5, Link(9))))))
+    link = lab.Link(3, lab.Link(1, lab.Link(4, lab.Link(1, lab.Link(5, lab.Link(9))))))
     new = lab.slice_link(link, 1, 4)
     assert str(new) == '<1 4 1>'
 
 
 def test_store_digits():    
     s = lab.store_digits(1)
-    assert str(s) == str(Link(1))
-    assert str(lab.store_digits(2345)) == str(Link(2, Link(3, Link(4, Link(5)))))
-    assert str(lab.store_digits(876)) == str(Link(8, Link(7, Link(6))))
+    assert str(s) == str(lab.Link(1))
+    assert str(lab.store_digits(2345)) == str(lab.Link(2, lab.Link(3, lab.Link(4, lab.Link(5)))))
+    assert str(lab.store_digits(876)) == str(lab.Link(8, lab.Link(7, lab.Link(6))))
 
     # ban str and reversed
     search = re.sub(r"#.*\\n", '', re.sub(r'"{3}[\s\S]*?"{3}', '', inspect.getsource(lab.store_digits)))
@@ -77,43 +75,43 @@ def test_store_digits():
     
 
 def test_every_other():
-    l = Link('a', Link('b', Link('c', Link('d'))))
+    l = lab.Link('a', lab.Link('b', lab.Link('c', lab.Link('d'))))
     lab.every_other(l)
     assert l.first == 'a'
     assert l.rest.first == 'c'
-    assert l.rest.rest is Link.empty
-    s = Link(1, Link(2, Link(3, Link(4))))
+    assert l.rest.rest is lab.Link.empty
+    s = lab.Link(1, lab.Link(2, lab.Link(3, lab.Link(4))))
     lab.every_other(s)
-    assert str(s) == str(Link(1, Link(3)))
-    odd_length = Link(5, Link(3, Link(1)))
+    assert str(s) == str(lab.Link(1, lab.Link(3)))
+    odd_length = lab.Link(5, lab.Link(3, lab.Link(1)))
     lab.every_other(odd_length)
-    assert str(odd_length) == str(Link(5, Link(1)))
-    singleton = Link(4)
+    assert str(odd_length) == str(lab.Link(5, lab.Link(1)))
+    singleton = lab.Link(4)
     lab.every_other(singleton)
-    assert str(singleton) == str(Link(4))
+    assert str(singleton) == str(lab.Link(4))
 
 
 def test_duplicate_link():
     x = lab.Link(5, lab.Link(4, lab.Link(3)))
     lab.duplicate_link(x, 5)
-    assert str(x) == str(Link(5, Link(5, Link(4, Link(3)))))
+    assert str(x) == str(lab.Link(5, lab.Link(5, lab.Link(4, lab.Link(3)))))
     y = lab.Link(2, lab.Link(4, lab.Link(6, lab.Link(8))))
     lab.duplicate_link(y, 10)
-    assert str(y) == str(Link(2, Link(4, Link(6, Link(8)))))
+    assert str(y) == str(lab.Link(2, lab.Link(4, lab.Link(6, lab.Link(8)))))
     z = lab.Link(1, lab.Link(2, (lab.Link(2, lab.Link(3)))))
     lab.duplicate_link(z, 2)
-    assert str(z) == str(Link(1, Link(2, Link(2, Link(2, Link(2, Link(3)))))))
+    assert str(z) == str(lab.Link(1, lab.Link(2, lab.Link(2, lab.Link(2, lab.Link(2, lab.Link(3)))))))
 
 
 def test_deep_map():
-    l = Link(1, Link(Link(2, Link(3)), Link(4)))
-    assert lab.deep_map(lambda x: x * x, l) == '<1 <4 9> 16>'
+    l = lab.Link(1, lab.Link(lab.Link(2, lab.Link(3)), lab.Link(4)))
+    assert str(lab.deep_map(lambda x: x * x, l)) == '<1 <4 9> 16>'
     assert str(l) == '<1 <2 3> 4>'
-    assert str(lab.deep_map(lambda x: 2 * x, Link(l, Link(Link(Link(5)))))) == '<<2 <4 6> 8> <<10>>>'
+    assert str(lab.deep_map(lambda x: 2 * x, lab.Link(l, lab.Link(lab.Link(lab.Link(5)))))) == '<<2 <4 6> 8> <<10>>>'
 
 
 def test_link_pop():
-    lnk = Link(1, Link(2, Link(3, Link(4, Link(5)))))
+    lnk = lab.Link(1, lab.Link(2, lab.Link(3, lab.Link(4, lab.Link(5)))))
     removed = lab.link_pop(lnk)
     assert removed == 5
     assert str(lnk) == '<1 2 3 4>'
@@ -157,47 +155,3 @@ def test_commit():
         # IF GITHUB USERNAME IS NOT FOUND
         print_error("Incorrect GitHub username; try again.")
         raise git.NoSuchPathError("")
-
-
-# linked list class
-
-class Link:
-    """A linked list.
-
-    >>> s = Link(1)
-    >>> s.first
-    1
-    >>> s.rest is Link.empty
-    True
-    >>> s = Link(2, Link(3, Link(4)))
-    >>> s.first = 5
-    >>> s.rest.first = 6
-    >>> s.rest.rest = Link.empty
-    >>> s  # Displays the contents of repr(s)
-    Link(5, Link(6))
-    >>> s.rest = Link(7, Link(Link(8, Link(9))))
-    >>> s
-    Link(5, Link(7, Link(Link(8, Link(9)))))
-    >>> print(s)  # Prints str(s)
-    <5 7 <8 9>>
-    """
-    empty = ()
-
-    def __init__(self, first, rest=empty):
-        assert rest is Link.empty or isinstance(rest, Link)
-        self.first = first
-        self.rest = rest
-
-    def __repr__(self):
-        if self.rest is not Link.empty:
-            rest_repr = ', ' + repr(self.rest)
-        else:
-            rest_repr = ''
-        return 'Link(' + repr(self.first) + rest_repr + ')'
-
-    def __str__(self):
-        string = '<'
-        while self.rest is not Link.empty:
-            string += str(self.first) + ' '
-            self = self.rest
-        return string + str(self.first) + '>'
